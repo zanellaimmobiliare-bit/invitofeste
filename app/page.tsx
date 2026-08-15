@@ -23,7 +23,7 @@ export default function Home() {
         ) : (
           <div className="cta-group">
             <a className="btn btn-primary" href={WHATSAPP_DM_URL}>
-              💬 Scrivimi su WhatsApp
+              💬 Hai domande? Scrivimi
             </a>
             <a className="btn btn-secondary" href={WHATSAPP_GROUP_URL}>
               👥 Entra nel gruppo
