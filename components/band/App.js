@@ -3,7 +3,7 @@ import './index.css';
 import * as THREE from 'three';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useThree, useFrame } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useGLTF, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
   
@@ -15,10 +15,8 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
 const GLTF_PATH = `${BASE_PATH}/assets/kartu.glb`;
-const TEXTURE_PATH = `${BASE_PATH}/assets/bandd.png`;
 
 useGLTF.preload(GLTF_PATH);
-useTexture.preload(TEXTURE_PATH);
 
 export default function App() {
   return (
@@ -54,54 +52,47 @@ function useInviteCardTexture() {
     ctx.translate(0, h);
     ctx.scale(1, -1);
 
-    const bg = ctx.createLinearGradient(0, 0, cw, h);
-    bg.addColorStop(0, '#0a0712');
-    bg.addColorStop(0.55, '#1c0f36');
-    bg.addColorStop(1, '#0a0712');
-    ctx.fillStyle = bg;
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, cw, h);
 
-    const glow1 = ctx.createRadialGradient(cw * 0.3, h * 0.28, 10, cw * 0.3, h * 0.28, cw * 1.1);
-    glow1.addColorStop(0, 'rgba(255,46,196,0.35)');
-    glow1.addColorStop(1, 'rgba(255,46,196,0)');
-    ctx.fillStyle = glow1;
-    ctx.fillRect(0, 0, cw, h);
-
-    const glow2 = ctx.createRadialGradient(cw * 0.7, h * 0.78, 10, cw * 0.7, h * 0.78, cw * 1.2);
-    glow2.addColorStop(0, 'rgba(124,58,237,0.35)');
-    glow2.addColorStop(1, 'rgba(124,58,237,0)');
-    ctx.fillStyle = glow2;
+    const glow = ctx.createRadialGradient(cw * 0.5, h * 0.5, 10, cw * 0.5, h * 0.5, cw * 1.1);
+    glow.addColorStop(0, 'rgba(255,255,255,0.12)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
     ctx.fillRect(0, 0, cw, h);
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
 
-    ctx.fillStyle = '#ff2ec4';
-    ctx.font = '700 30px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
-    ctx.fillText('SEI INVITATO', cw / 2, h * 0.34);
-
-    ctx.fillStyle = '#f7f2ff';
+    ctx.fillStyle = '#ffffff';
     ctx.font = '800 62px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
-    ctx.fillText('ECCO IL', cw / 2, h * 0.445);
-    ctx.fillText('TUO INVITO', cw / 2, h * 0.515);
-
-    ctx.fillStyle = 'rgba(247,242,255,0.75)';
-    ctx.font = '600 34px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
-    ctx.fillText('ALLA FESTA', cw / 2, h * 0.58);
-
-    ctx.strokeStyle = 'rgba(255,46,196,0.5)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cw * 0.2, h * 0.63);
-    ctx.lineTo(cw * 0.8, h * 0.63);
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(247,242,255,0.6)';
-    ctx.font = '700 26px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
-    ctx.fillText('DJ SET IN CASA', cw / 2, h * 0.67);
+    ctx.fillText('ECCO IL', cw / 2, h * 0.475);
+    ctx.fillText('TUO INVITO', cw / 2, h * 0.545);
 
     const tex = new THREE.CanvasTexture(canvas);
     tex.anisotropy = 16;
+    tex.needsUpdate = true;
+    return tex;
+  }, []);
+}
+
+function useBandTexture() {
+  return useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 60px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('DJ SET', canvas.width / 2, canvas.height / 2 + 4);
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     tex.needsUpdate = true;
     return tex;
   }, []);
@@ -112,7 +103,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3(); // prettier-ignore
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(GLTF_PATH);
-  const texture = useTexture(TEXTURE_PATH);
+  const bandTexture = useBandTexture();
   const inviteTexture = useInviteCardTexture();
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
@@ -157,7 +148,6 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   });
 
   curve.curveType = 'chordal';
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
   return (
     <>
@@ -191,7 +181,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       </group>
       <mesh ref={band}>
         <meshLineGeometry />
-        <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={texture} repeat={[-4, 1]} lineWidth={1} />
+        <meshLineMaterial color="white" depthTest={false} resolution={[width, height]} useMap map={bandTexture} repeat={[-4, 1]} lineWidth={1} />
       </mesh>
       
     </>
