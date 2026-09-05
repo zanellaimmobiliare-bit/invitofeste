@@ -18,7 +18,8 @@
 }
 
 .enter-btn,
-.cta-group {
+.cta-group,
+.ig-gate {
   pointer-events: auto;
 }
 
@@ -125,4 +126,69 @@
 .fallback em {
   color: rgba(255, 255, 255, 0.75);
   font-style: normal;
+}
+
+.ig-gate {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: rise 0.35s ease both;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-gate {
+    animation: none;
+  }
+}
+
+.ig-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.ig-input {
+  padding: 0.9rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 1rem;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ig-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ig-input:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.ig-error {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ig-gate .btn {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font: inherit;
+  font-weight: 700;
+}
+
+.ig-gate .btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }

@@ -38,6 +38,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NEXT_PUBLIC_IG_ENDPOINT: ${{ secrets.NEXT_PUBLIC_IG_ENDPOINT }}
 
       - uses: actions/configure-pages@v5
 
