@@ -12,7 +12,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 20px max(28px, env(safe-area-inset-bottom));
+  padding: 0 20px max(40px, calc(env(safe-area-inset-bottom) + 12px));
   pointer-events: none;
   z-index: 10;
 }

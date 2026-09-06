@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   description: 'DJ set in casa. Scrivimi su WhatsApp o entra nel gruppo per tutti i dettagli.',
   robots: { index: false, follow: false },
   themeColor: '#05040a',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover',
+  },
   openGraph: {
     title: 'Sei invitato — DJ Set in casa',
     description: 'Scrivimi su WhatsApp o entra nel gruppo per tutti i dettagli 🎧',
