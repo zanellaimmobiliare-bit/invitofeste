@@ -10,7 +10,7 @@ import './invite-overlay.css';
 // to bring the gate back.
 
 const WHATSAPP_NUMBER = '393494103162';
-const WHATSAPP_MESSAGE = 'Ciao! Ho visto la storia della festa, mi dai qualche info in più?';
+const WHATSAPP_MESSAGE = 'Ciao! Voglio iscrivermi alla festa, mi mandi la posizione?';
 const WHATSAPP_DM_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 type Step = 'idle' | 'entered';
@@ -31,7 +31,7 @@ export default function Home() {
         {step === 'entered' && (
           <div className="cta-group">
             <a className="btn btn-primary" href={WHATSAPP_DM_URL}>
-              💬 Hai domande? Scrivimi
+              💬 Scrivimi per iscriverti
             </a>
             <p className="fallback">
               Il bottone non apre WhatsApp? Tocca <strong>⋯</strong> in alto a destra e scegli{' '}
