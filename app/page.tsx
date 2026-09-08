@@ -10,7 +10,7 @@ import './invite-overlay.css';
 // to bring the gate back.
 
 const WHATSAPP_NUMBER = '393494103162';
-const WHATSAPP_MESSAGE = 'Ciao! Voglio iscrivermi alla festa, mi mandi la posizione?';
+const WHATSAPP_MESSAGE = 'Ciao! Voglio iscrivermi alla festa, mi dai maggiori informazioni?';
 const WHATSAPP_DM_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 type Step = 'idle' | 'entered';
